@@ -16,6 +16,7 @@
     image.alt = slot.dataset.imageAlt || '';
     image.loading = 'lazy';
     slot.querySelector('.image-slot__media')?.after(image);
+    slot.classList.add('has-image');
   });
 
   function updateScrollEffects() {
