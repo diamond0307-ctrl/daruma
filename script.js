@@ -70,6 +70,18 @@
   }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
 
   document.querySelectorAll('.reveal, .image-slot').forEach((element) => observer.observe(element));
+  if (!reducedMotion) {
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.play().catch(() => {});
+        else entry.target.pause();
+      });
+    }, { threshold: .15 });
+    document.querySelectorAll('.video-section video[autoplay]').forEach((video) => {
+      video.muted = true;
+      videoObserver.observe(video);
+    });
+  }
   menu?.addEventListener('click', () => setMenu(true));
   closeMenu?.addEventListener('click', () => setMenu(false));
   menuLinks.forEach((link) => link.addEventListener('click', () => setMenu(false)));
