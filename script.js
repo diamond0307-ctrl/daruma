@@ -77,7 +77,7 @@
         else entry.target.pause();
       });
     }, { threshold: .15 });
-    document.querySelectorAll('.video-section video[autoplay]').forEach((video) => {
+    document.querySelectorAll('main video[autoplay]').forEach((video) => {
       video.muted = true;
       videoObserver.observe(video);
     });
