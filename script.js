@@ -73,7 +73,7 @@
   if (!reducedMotion) {
     const videoObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.play().catch(() => {});
+        if (entry.isIntersecting && (!entry.target.ended || entry.target.loop)) entry.target.play().catch(() => {});
         else entry.target.pause();
       });
     }, { threshold: .15 });
