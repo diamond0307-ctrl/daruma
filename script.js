@@ -6,8 +6,6 @@
   const closeMenu = document.querySelector('.site-menu__close');
   const menuLinks = document.querySelectorAll('.site-menu__links a');
   const scrollTitles = document.querySelectorAll('[data-scroll-title]');
-  const fixedLineCta = document.querySelector('.fixed-line-cta');
-  const secondSection = document.querySelector('.photo-section');
   let framePending = false;
   let storedScrollY = 0;
 
@@ -23,7 +21,6 @@
 
   function updateScrollEffects() {
     framePending = false;
-    if (fixedLineCta && secondSection) fixedLineCta.classList.toggle('is-visible', secondSection.getBoundingClientRect().top < window.innerHeight);
     if (!reducedMotion && hero) {
       const heroTop = hero.offsetTop;
       const scrollRange = Math.max(1, hero.offsetHeight - window.innerHeight);
