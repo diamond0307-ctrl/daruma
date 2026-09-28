@@ -1,13 +1,10 @@
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hero = document.querySelector('.hero');
-  const menu = document.querySelector('.menu');
-  const menuPanel = document.querySelector('.site-menu');
-  const closeMenu = document.querySelector('.site-menu__close');
-  const menuLinks = document.querySelectorAll('.site-menu__links a');
+  const fixedLineCta = document.querySelector('.fixed-line-cta');
+  const secondSection = document.querySelector('.photo-section');
   const scrollTitles = document.querySelectorAll('[data-scroll-title]');
   let framePending = false;
-  let storedScrollY = 0;
 
   document.querySelectorAll('[data-image-src]').forEach((slot) => {
     if (!slot.dataset.imageSrc) return;
@@ -21,6 +18,7 @@
 
   function updateScrollEffects() {
     framePending = false;
+    if (fixedLineCta && secondSection) fixedLineCta.classList.toggle('is-visible', secondSection.getBoundingClientRect().top <= 2);
     if (!reducedMotion && hero) {
       const heroTop = hero.offsetTop;
       const scrollRange = Math.max(1, hero.offsetHeight - window.innerHeight);
@@ -40,23 +38,6 @@
     if (!framePending) {
       framePending = true;
       window.requestAnimationFrame(updateScrollEffects);
-    }
-  }
-
-  function setMenu(open) {
-    if (!menu || !menuPanel) return;
-    menu.classList.toggle('is-open', open);
-    menu.setAttribute('aria-expanded', String(open));
-    menuPanel.classList.toggle('is-open', open);
-    menuPanel.setAttribute('aria-hidden', String(!open));
-    if (open) {
-      storedScrollY = window.scrollY;
-      document.body.classList.add('menu-open');
-      closeMenu?.focus();
-    } else {
-      document.body.classList.remove('menu-open');
-      window.scrollTo(0, storedScrollY);
-      menu.focus();
     }
   }
 
@@ -82,10 +63,6 @@
       videoObserver.observe(video);
     });
   }
-  menu?.addEventListener('click', () => setMenu(true));
-  closeMenu?.addEventListener('click', () => setMenu(false));
-  menuLinks.forEach((link) => link.addEventListener('click', () => setMenu(false)));
-  document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && menuPanel?.classList.contains('is-open')) setMenu(false); });
   window.addEventListener('scroll', requestScrollUpdate, { passive: true });
   window.addEventListener('resize', requestScrollUpdate, { passive: true });
   updateScrollEffects();
